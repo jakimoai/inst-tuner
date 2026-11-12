@@ -1,0 +1,30 @@
+name: Bug report
+description: The tuner read something wrong, or the app misbehaved.
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What the tuner showed, and what you expected. Another tuner's reading helps.
+    validations:
+      required: true
+  - type: input
+    id: instrument
+    attributes:
+      label: Instrument, tuning and string
+      placeholder: 5-string bass, Standard, low B
+    validations:
+      required: true
+  - type: input
+    id: phone
+    attributes:
+      label: iPhone model and iOS version
+      placeholder: iPhone 14 Pro Max, iOS 26.1
+    validations:
+      required: true
+  - type: textarea
+    id: recording
+    attributes:
+      label: Recording or screen recording
+      description: For pitch problems, a voice memo of the note from the same phone is the most useful thing you can attach.
