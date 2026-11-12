@@ -73,7 +73,7 @@ struct RecordingTests {
         ))
     }
 
-    /// The job that matters most: open strings, in a real tuning, through a weak microphone.
+    /// Tests the job that matters most, which is open strings in a real tuning through a weak microphone.
     /// The first note of each file is an open string. Double bass files use a 5-string tuning.
     private func openStrings(folder: String, names: [String]) throws {
         print("\n=== Open strings in tuning mode ===")

@@ -1,8 +1,8 @@
 import Foundation
 
-/// Turns noisy per-frame measurements into one steady reading.
-/// Single-frame glitches are ignored, real note changes are followed quickly, and the last
-/// reading is held briefly after a note dies so it can still be read.
+/// Turns noisy per-frame measurements into one steady reading. It ignores single-frame
+/// glitches, follows a real note change within a few frames, and holds the last reading
+/// briefly after a note dies so the player can still read it.
 public struct PitchTracker: Sendable {
     public struct Reading: Sendable, Equatable {
         public var frequency: Double
@@ -193,8 +193,8 @@ public struct InTuneDetector: Sendable {
     private let frameRate: Double
     private let requiredFrames: Int
     private var matchingFrames = 0
-    /// Whether coming into tune should be announced. A fading note that drops out and comes
-    /// back in tune is the same success, so it isn't announced again.
+    /// Whether to announce the next time the string comes into tune. A fading note that drops
+    /// out and comes back in tune is the same success, so the detector doesn't announce it again.
     private var isArmed = true
 
     public init(frameRate: Double, tolerance: Double = 2, holdTime: Double = 0.18) {
@@ -203,13 +203,13 @@ public struct InTuneDetector: Sendable {
         requiredFrames = Int(holdTime * frameRate)
     }
 
-    /// Call when a new pluck starts or the target changes, so the next success is announced.
+    /// Call when a new pluck starts or the target changes, so the detector announces the next success.
     public mutating func rearm() {
         isArmed = true
     }
 
     /// Returns true on the single frame when a string comes into tune, at most once until it
-    /// goes out of tune again or `rearm()` is called.
+    /// goes out of tune again or the caller calls `rearm()`.
     public mutating func update(cents: Double?, isLive: Bool) -> Bool {
         guard let cents, isLive else {
             isInTune = false

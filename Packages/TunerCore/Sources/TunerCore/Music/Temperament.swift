@@ -14,7 +14,7 @@ public struct Temperament: Identifiable, Hashable, Codable, Sendable {
     }
 
     /// How far `pitchClass` sits from equal temperament in this system and key.
-    /// Offsets are shifted so A always stays at the reference pitch.
+    /// Shifts the offsets so A always stays at the reference pitch.
     public func offsetFromEqual(pitchClass: Int, key: Int) -> Double {
         rawOffset(pitchClass, key: key) - rawOffset(9, key: key)
     }

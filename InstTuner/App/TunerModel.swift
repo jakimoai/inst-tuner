@@ -38,9 +38,9 @@ final class TunerModel {
     @ObservationIgnored private let worker: AnalysisWorker
     @ObservationIgnored private var inTune: InTuneDetector
     @ObservationIgnored private var isActive = false
-    /// Audio start and stop calls run one at a time, in the order they were asked for.
+    /// Audio start and stop calls run one at a time, in the order they arrive.
     @ObservationIgnored private var audioChain: Task<Void, Never>?
-    /// Frames from an analysis run that has since been stopped are ignored.
+    /// `apply` ignores frames from an analysis run that has since stopped.
     @ObservationIgnored private var analysisRun = 0
     @ObservationIgnored private var acceptedRun: Int?
     @ObservationIgnored private var lastNoteCount = 0
@@ -165,7 +165,7 @@ final class TunerModel {
             micStatus = .listening
             UIApplication.shared.isIdleTimerDisabled = true
         } catch {
-            // Still inside a call or another app's interruption: stay paused, not failed.
+            // A call or another app may still hold the microphone, so stay paused rather than failed.
             micStatus = micStatus == .paused ? .paused : .failed
         }
     }
@@ -344,8 +344,9 @@ final class TunerModel {
 
     // MARK: - Reference tone
 
-    /// Turning tone mode on plays a note straight away: the locked string, else the last one
-    /// heard, else the lowest.
+    /// Turning tone mode on plays a note straight away. In a tuning it plays the locked string,
+    /// else the last string heard, else the lowest. In chromatic mode it plays the last note
+    /// heard, else A.
     func setToneMode(_ enabled: Bool) {
         isToneMode = enabled
         guard enabled else {

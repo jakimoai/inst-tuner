@@ -97,8 +97,8 @@ public final class PitchEngine {
     private var lastFrequency: Double?
 
     // A plucked string doesn't change octave while it rings, but its overtones take turns being
-    // the loudest thing the microphone hears. So the octave is decided once, just after the
-    // pluck when the overtones are all present, and held until the next pluck.
+    // the loudest thing the microphone hears. So the engine decides the octave once, just after
+    // the pluck when all the overtones are present, and keeps it until the next pluck.
     private var heldFrequency: Double?
     /// The note held before it faded or broke up without a new pluck. A note that comes back
     /// in the same register is the same string still ringing, so it keeps that octave.
@@ -382,8 +382,9 @@ public final class PitchEngine {
         return nil
     }
 
-    /// A strong even overtone can look like the fundamental. Several odd overtones of the note
-    /// an octave down give it away. One stray peak isn't enough: open strings ring along.
+    /// A strong even overtone can look like the fundamental. Several odd overtones of the note an
+    /// octave down show that the lower note is the real one. One stray peak isn't enough, because
+    /// other open strings vibrate along with the one played.
     private func subharmonic(of frequency: Double) -> Double? {
         let candidate = frequency / 2
         guard candidate >= configuration.minFrequency else { return nil }
@@ -415,7 +416,7 @@ public final class PitchEngine {
         envelopeDB = max(levelDB, envelopeDB - envelopeDecayPerFrameDB)
     }
 
-    /// A fresh pluck: its octave is decided from scratch.
+    /// Starts a new note and decides its octave from scratch.
     private func startNewNote() {
         notePeakDB = -100
         heldFrequency = nil

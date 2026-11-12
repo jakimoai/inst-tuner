@@ -2,7 +2,7 @@ import Foundation
 import Synchronization
 
 /// Lock-free single-producer, single-consumer sample queue.
-/// `write` is safe to call on the real-time audio thread: it never locks or allocates.
+/// `write` is safe to call on the real-time audio thread, because it never locks or allocates.
 public final class SampleRingBuffer: @unchecked Sendable {
     private let storage: UnsafeMutablePointer<Float>
     private let capacity: Int
@@ -23,7 +23,7 @@ public final class SampleRingBuffer: @unchecked Sendable {
         storage.deallocate()
     }
 
-    /// Producer side. Returns how many samples fit; the rest are dropped.
+    /// Producer side. Writes as many samples as fit, drops the rest, and returns how many it wrote.
     @discardableResult
     public func write(_ source: UnsafePointer<Float>, count: Int) -> Int {
         let written = writeCounter.load(ordering: .relaxed)
@@ -46,7 +46,7 @@ public final class SampleRingBuffer: @unchecked Sendable {
         writeCounter.load(ordering: .acquiring) - readCounter.load(ordering: .relaxed)
     }
 
-    /// Consumer side. Returns how many samples were copied.
+    /// Consumer side. Returns how many samples it copied.
     @discardableResult
     public func read(into destination: UnsafeMutablePointer<Float>, count: Int) -> Int {
         let written = writeCounter.load(ordering: .acquiring)

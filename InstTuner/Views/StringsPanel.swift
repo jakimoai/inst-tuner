@@ -1,15 +1,15 @@
 import SwiftUI
 import TunerCore
 
-/// The strings themselves are the string picker: heavier gauges look heavier, and the one
-/// being played shakes.
+/// Each string is also the button that picks it. Heavier gauges draw thicker, and the string
+/// being played vibrates.
 struct StringsPanel: View {
     @Environment(TunerModel.self) private var model
 
     var body: some View {
         if let tuning = model.currentTuning {
             let live = model.live
-            // Strings tuned to the same pitch light up together: they can't be told apart.
+            // The tuner can't tell apart strings tuned to the same pitch, so they light up together.
             let playing = live.isLive ? live.stringIndex.flatMap { tuning.strings[safe: $0] } : nil
             HStack(spacing: 0) {
                 ForEach(Array(tuning.strings.enumerated()), id: \.offset) { index, string in

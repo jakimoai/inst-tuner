@@ -24,7 +24,7 @@ final class AnalysisWorker: @unchecked Sendable {
 
     init(ring: SampleRingBuffer) {
         self.ring = ring
-        // Only the newest frame matters. If the screen falls behind, older ones are dropped.
+        // Only the newest frame matters. If the screen falls behind, the stream drops older ones.
         (frames, continuation) = AsyncStream.makeStream(bufferingPolicy: .bufferingNewest(1))
     }
 

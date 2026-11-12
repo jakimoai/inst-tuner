@@ -13,7 +13,7 @@ enum Palette {
 }
 
 enum Typeface {
-    /// The note name: a heavy Clarendon, the kind of slab found on old amp badges.
+    /// The note name, in a heavy Clarendon slab serif like the lettering on old amp badges.
     static func glyph(_ size: CGFloat) -> Font {
         .custom("Superclarendon-Black", fixedSize: size)
     }

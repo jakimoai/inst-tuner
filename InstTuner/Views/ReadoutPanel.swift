@@ -114,7 +114,7 @@ struct NeedleReadout: View {
 
             guard hasSignal else { return }
 
-            // The needle: a solid bar, thick enough to read from a music stand.
+            // The needle is a solid bar, thick enough to read from a music stand.
             let clamped = min(max(cents, -50), 50)
             let colour = inTune ? Palette.honey : (isLive ? Palette.pearl : Palette.nickel)
             let bar = CGRect(x: position(clamped) - 4, y: 2, width: 8, height: baseline - 2)
@@ -206,7 +206,7 @@ struct TraceReadout: View {
             let midY = size.height / 2
             let range = 50.0
 
-            // Square-root scale: fine detail near pitch, still room for a wild note.
+            // A square-root scale spreads out the cents near pitch and still fits a note far off it.
             let yPosition = { (cents: Double) -> CGFloat in
                 let clamped = min(max(cents, -range), range)
                 let scaled = (abs(clamped) / range).squareRoot() * (clamped < 0 ? -1 : 1)

@@ -54,8 +54,8 @@ func engineReadings(
     return results
 }
 
-/// The pitch a synthesised string's overtones add up to at `time`, weighted by loudness: what
-/// the ear and a period-based tuner hear. On a stiff string it's sharp of the fundamental.
+/// The pitch a synthesised string's overtones add up to at `time`, weighted by loudness. That's
+/// what the ear and a period-based tuner hear. On a stiff string it's sharp of the fundamental.
 func heardPitch(_ parameters: PluckSynth.Parameters, at time: Double, sampleRate: Double = testSampleRate) -> Double {
     let partials = parameters.partials(at: time, sampleRate: sampleRate)
         .enumerated()

@@ -12,8 +12,8 @@ enum AudioFailure: Error {
 }
 
 /// Owns the audio session and engines. The microphone and the reference tone never run at the
-/// same time: the tuner must not hear its own tone, and each path gets the session mode it
-/// needs (raw input for measuring, full speaker volume for playback).
+/// same time, so the tuner never hears its own tone. Each gets the session mode it needs: raw
+/// input for measuring, and full speaker volume for playback.
 actor AudioController {
     /// About five seconds of audio, far more than the analysis ever falls behind by.
     nonisolated let ring = SampleRingBuffer(minimumCapacity: 1 << 18)

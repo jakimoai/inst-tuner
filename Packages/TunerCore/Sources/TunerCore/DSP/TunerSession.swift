@@ -19,7 +19,7 @@ public struct TunerFrame: Sendable {
     public var noteCount: Int
 }
 
-/// Everything between raw samples and a reading. Not thread-safe: use it from one queue.
+/// Everything between raw samples and a reading. It isn't thread-safe, so use it from one queue.
 public final class TunerSession {
     public struct Settings: Sendable, Equatable {
         public var context: PitchContext

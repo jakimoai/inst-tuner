@@ -1,39 +1,39 @@
 # Contributing
 
-Thanks for helping. InstTuner is a personal project worked on in spare time. Issues and pull
-requests are all read, but there's no set response time.
+Thanks for helping. I work on InstTuner in my spare time. I read issues and pull requests, but
+I can't promise how soon I'll reply.
 
 ## What InstTuner is for
 
-A free, accurate tuner for guitar and bass that looks good and has nothing locked. It stays
-free, with no ads, accounts, tracking, analytics or network access. Changes that add any of
-those won't be merged.
+InstTuner is a free, accurate tuner for guitar and bass with no paid features. It will stay free,
+with no ads, accounts, tracking, analytics or network access. I won't merge changes that add any
+of those.
 
-New instruments and bigger features are worth an issue first, so we can agree on the idea before
-you write code.
+Before you write code for a new instrument or a bigger feature, open an issue so we can agree on
+the idea.
 
 ## Reporting a bug
 
-Open an issue and include:
+Open an issue and include these:
 
 - your iPhone model and iOS version
-- the instrument, the tuning selected in the app, and the string or note you played
-- what the tuner showed, and what you expected (another tuner's reading helps)
-- a short screen recording, if you can
+- the instrument, the tuning you picked in the app, and the string or note you played
+- what the tuner showed, and what you expected, ideally with another tuner's reading
+- a short screen recording, if you can make one
 
-Pitch problems are much easier to fix with a recording of the note. A voice memo from the same
-phone, attached as a file, is perfect.
+A recording of the note makes pitch problems much easier to fix. A voice memo from the same phone,
+attached as a file, works well.
 
 ## Sending a pull request
 
-1. Keep it to one change. Smaller pull requests get reviewed sooner.
-2. Run `cd Packages/TunerCore && swift test`. Everything must pass.
-3. Pitch engine changes need tests. If you have the University of Iowa recordings, include the
-   `RecordingTests` totals from before and after your change.
-4. Screen changes need before and after screenshots.
-5. Build with no new warnings, and don't add third-party dependencies.
-6. Don't commit your own signing team or bundle identifier. Pass them on the command line, as in
-   [AGENTS.md](AGENTS.md).
+1. Make one change per pull request. I review small pull requests sooner.
+2. Run `cd Packages/TunerCore && swift test`, and check that every test passes.
+3. Add tests with any pitch engine change. If you have the University of Iowa recordings, include
+   the `RecordingTests` totals from before and after your change.
+4. Include before and after screenshots for any change to the screen.
+5. Don't add build warnings or third-party dependencies.
+6. Don't commit your own signing team or bundle identifier. Pass them on the command line, as
+   [AGENTS.md](AGENTS.md) shows.
 
-By sending a pull request you agree that your contribution is licensed under the MIT licence, the
-same as the rest of the project.
+By sending a pull request, you agree to license your contribution under the MIT licence, like the
+rest of the project.

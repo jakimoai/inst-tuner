@@ -39,7 +39,7 @@ struct PitchAccuracyTests {
         #expect(trimmedWorstHeardCents(readings, parameters) < 3.5, "\(name)")
     }
 
-    /// The hard case: a phone mic barely hears a low B's fundamental, so the reading rests on
+    /// The hard case. A phone mic barely hears a low B's fundamental, so the reading comes from
     /// the overtones alone.
     @Test("Low strings through a weak phone mic read within 3.5 cents of the pitch they sound", arguments: bassNotes, [90.0, 150.0])
     func bassThroughPhoneMic(name: String, corner: Double) throws {
@@ -120,7 +120,7 @@ struct OctaveTests {
     @Test("Knowing the strings fixes an octave doubt")
     func stringPrior() throws {
         let truth = midiFrequency(40)
-        // A pure octave-up signal: nothing in the spectrum points to E2.
+        // A pure signal an octave up. Nothing in the spectrum points to E2.
         let samples = sine(frequency: truth * 2)
         let configuration = PitchEngine.Configuration(stringFrequencies: strings("E2 A2 D3 G3 B3 E4"))
         let frames = engineFrequencies(samples, configuration: configuration)
@@ -261,8 +261,8 @@ struct StringChangeTests {
         return PluckSynth.render(parameters, sampleRate: testSampleRate, duration: duration)
     }
 
-    /// High E is the 4th overtone of low E, and B the 3rd. A quieter pluck right after the low
-    /// string is damped may not count as a new note, but it must still move to its own string.
+    /// High E is the 4th harmonic of low E, and B the 3rd. A quieter pluck right after the low
+    /// string stops may not count as a new note, but the reading must still move to its own string.
     @Test("A quieter pluck on an overtone string moves to that string", arguments: [("E4", 5), ("B3", 4)])
     func overtoneString(name: String, index: Int) throws {
         let tuning = try #require(TuningLibrary.tuning(id: "g6.standard"))

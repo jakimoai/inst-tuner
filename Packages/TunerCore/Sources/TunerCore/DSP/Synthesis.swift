@@ -97,8 +97,8 @@ public enum PluckSynth {
     }
 }
 
-/// Plays a reference pitch. The harmonics are weighted so a low string's note is still heard
-/// on a phone speaker, which can't reproduce its fundamental.
+/// Plays a reference pitch. It turns down harmonics below 220 Hz, so a low string's note still
+/// comes through a phone speaker, which can't reproduce the fundamental.
 ///
 /// `render` runs on the real-time audio thread. It never locks or allocates.
 public final class ToneGenerator: @unchecked Sendable {

@@ -49,7 +49,7 @@ struct TunerSettings: Codable, Equatable {
     }
 
     var context: PitchContext {
-        // Custom offsets are entered per note name, so they don't move with a key.
+        // The player enters custom offsets per note name, so they don't move with a key.
         let key = temperamentID == Temperament.customID ? 0 : key
         return PitchContext(a4: a4, temperament: temperament, key: key)
     }
@@ -72,8 +72,8 @@ struct TunerSettings: Codable, Equatable {
 }
 
 extension TunerSettings {
-    /// Reads whatever was saved, field by field. A field that's missing (saved by an older
-    /// version) or unreadable falls back to its default instead of losing everything else.
+    /// Reads the saved settings field by field. A field an older version didn't save, or one
+    /// that can't be read, falls back to its default, and the other fields still load.
     init(from decoder: Decoder) throws {
         self.init()
         let container = try decoder.container(keyedBy: CodingKeys.self)

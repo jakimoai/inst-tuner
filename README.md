@@ -1,80 +1,82 @@
 # InstTuner
 
-A free iPhone tuner for guitar and bass, with nothing locked. No accounts, ads, in-app purchases
-or network access.
+A free iPhone tuner for guitar and bass, with no paid features. It has no accounts, ads, in-app
+purchases or network access.
 
 ![InstTuner tuning the A string flat, high E in tune, and a 12-string custom tuning](docs/screenshots.png)
 
 ## What it does
 
-- Guitar (6, 7 and 8 strings) and bass (4, 5 and 6 strings), reading down to A0 for low B and drop tunings.
-- 46 preset tunings, plus your own with per-string cents offsets, or chromatic mode for any note.
-- Equal temperament and 9 historical tuning systems in any key, a custom system, and A4 from 390 to 490 Hz.
-- Needle, strobe, pitch trace and spectrum views.
-- Reference tones, weighted so low strings can be heard on a phone speaker.
-- A big note name you can read from a music stand, and a glow behind it that drifts left when flat and right when sharp.
+- Tunes guitars with 6, 7 or 8 strings and basses with 4, 5 or 6, and reads down to A0 for low B and drop tunings.
+- Has 46 preset tunings, a chromatic mode for any note, and custom tunings where each string can sit a set number of cents off its note.
+- Supports equal temperament, 9 historical tuning systems in any key, a custom system, and an A4 reference from 390 to 490 Hz.
+- Shows the pitch as a needle, a strobe, a trace over time or a spectrum.
+- Plays reference tones. On low notes it turns down the fundamental, which a phone speaker can't play, and keeps the overtones it can.
+- Shows the note name large enough to read from a music stand. The glow behind it moves left when you're flat and right when you're sharp.
 
 ## Install it on your iPhone
 
-InstTuner isn't on the App Store. An iPhone only runs apps signed for it, so there's no download:
-you build it on a Mac and install it on your own phone. It's free, and takes about 15 minutes the
-first time.
+InstTuner isn't on the App Store, and there's no download, because an iPhone only runs apps signed
+for it. You build it on a Mac and install it on your own phone. It costs nothing, and the first
+install takes about 15 minutes.
 
-Using a coding agent? Point it at [AGENTS.md](AGENTS.md). It has the exact commands, and says
-which steps only you can do on the phone.
+If you use a coding agent, point it at [AGENTS.md](AGENTS.md). That file has the exact commands and
+lists the steps only you can do on the phone.
 
-**You need:** a Mac with Xcode 26 (free from the Mac App Store), an iPhone on iOS 26, a cable, and
-an Apple Account. A free account is enough.
+You need a Mac with Xcode 26, which is free from the Mac App Store. You also need an iPhone on
+iOS 26, a cable, and an Apple Account. A free account works.
 
 1. **Get the code.** Run `git clone https://github.com/jakimoai/inst-tuner.git`, or download the
    ZIP from the green Code button.
-2. **Sign in to Xcode.** Open Xcode, go to Settings → Accounts, and add your Apple Account.
-3. **Open the project.** Open `InstTuner.xcodeproj`. Select the InstTuner target, then the Signing
-   & Capabilities tab. Set Team to your account (it says "Personal Team" on a free account), and
-   change Bundle Identifier to something only you will use, like `com.yourname.InstTuner`.
-4. **Use a release build.** Go to Product → Scheme → Edit Scheme → Run, and set Build
-   Configuration to Release. Debug builds work, but the pitch engine runs much slower in them.
+2. **Sign in to Xcode.** Open Xcode, open Settings, choose Accounts, and add your Apple Account.
+3. **Set up signing.** Open `InstTuner.xcodeproj`, select the InstTuner target, and open the
+   Signing & Capabilities tab. Set Team to your account, which shows as "Personal Team" on a free
+   account. Change Bundle Identifier to one only you will use, such as `com.yourname.InstTuner`.
+4. **Use a release build.** Choose Product, then Scheme, then Edit Scheme. Select Run and set Build
+   Configuration to Release. A debug build also works, but its pitch engine runs much slower.
 5. **Connect the phone.** Plug it in, unlock it, and tap Trust if it asks.
-6. **Turn on Developer Mode.** On the phone, go to Settings → Privacy & Security → Developer Mode,
-   turn it on, and restart when asked. The switch only appears after the phone has been connected
-   to Xcode once.
+6. **Turn on Developer Mode.** On the phone, open Settings, then Privacy & Security, then Developer
+   Mode. Turn it on and restart when asked. The switch appears only after you've connected the
+   phone to Xcode once.
 7. **Install.** In Xcode, choose your phone from the device menu at the top, then press Run (⌘R).
 8. **Trust yourself as a developer.** The first launch fails with "Untrusted Developer". On the
-   phone, go to Settings → General → VPN & Device Management, tap your Apple Account, and tap
-   Trust.
+   phone, open Settings, then General, then VPN & Device Management. Tap your Apple Account, then
+   tap Trust.
 9. **Open InstTuner** and allow the microphone.
 
-**Free account limits:** the app stops opening after 7 days. Connect the phone and press Run
-again to renew it; your settings and tunings are kept. A free account can also have only 3 apps
-like this on a phone at once. The paid Apple Developer Program (US$99 a year) extends signing to a
-year.
+A free account signs the app for 7 days. After that it stops opening, so connect the phone and
+press Run again. Your settings and tunings stay. A free account can also keep only 3 apps like this
+on a phone at once. The paid Apple Developer Program costs US$99 a year and signs apps for a year.
 
-**If something goes wrong:**
+If something goes wrong, find the message here.
 
 | Message | Fix |
 |---|---|
-| "Signing for InstTuner requires a development team" | Step 3: pick your team. |
-| "Failed to register bundle identifier" | Step 3: the bundle identifier is taken; make it more unique. |
-| "Developer Mode disabled" | Step 6. |
-| "Untrusted Developer" on the phone | Step 8. |
-| "The maximum number of apps for free development profiles has been reached" | Delete another app you installed this way, or use the paid program. |
-| Readings missing, or the screen says the microphone is off | Settings → InstTuner → turn on Microphone. |
+| "Signing for InstTuner requires a development team" | Pick your team in step 3. |
+| "Failed to register bundle identifier" | Someone else has that bundle identifier. Make yours more specific in step 3. |
+| "Developer Mode disabled" | Turn on Developer Mode in step 6. |
+| "Untrusted Developer" on the phone | Trust yourself in step 8. |
+| "The maximum number of apps for free development profiles has been reached" | Delete another app you installed this way, or join the paid program. |
+| No readings, or the screen says the microphone is off | Open Settings, then InstTuner, and turn on Microphone. |
 
 ## How the pitch engine works
 
-1. **Period** (`PeriodDetector`): finds the waveform's repeating period, which still works when a
-   phone mic can't hear a low string's fundamental.
-2. **Octave** (`PitchEngine`): decided just after the pluck, then held until the next one, using
-   the strings being tuned when there are any. Sound whose level never fades, like mains hum,
-   is treated as background.
-3. **Pitch** (`PartialAnalyzer`): measures each overtone precisely and combines them, weighted by
-   loudness, into the pitch the ear hears. A stiff bass string's overtones run sharp, so this
-   sits a few cents above its theoretical fundamental, which is what players tune to and what
-   other tuners show. A string-stiffness model predicts where each overtone will be.
-4. **Reading** (`PitchTracker`): ignores glitches, follows real changes, holds the last reading.
+1. **Period.** `PeriodDetector` finds how often the waveform repeats. This works even when a phone
+   mic can't hear a low string's fundamental.
+2. **Octave.** `PitchEngine` decides the octave just after the pluck and keeps it until the next
+   one. In a tuning, it uses the open strings to settle doubts. It ignores sound whose level never
+   fades, like mains hum.
+3. **Pitch.** `PartialAnalyzer` measures each overtone's frequency from how far its phase moves
+   between two overlapping snapshots. Then it averages the pitch each overtone implies, weighting
+   louder ones more. That average is
+   what the ear hears. A stiff bass string's overtones run sharp, so a low E reads a few cents
+   above the string's theoretical fundamental, as it does on other tuners. A model of string
+   stiffness predicts where to look for each overtone.
+4. **Reading.** `PitchTracker` ignores single-frame glitches, follows a real change within 3
+   frames, and holds the last reading for 1.6 seconds after the note stops.
 
-The engine lives in `Packages/TunerCore`, which has no UI and is tested without a phone. The app
-in `InstTuner/` is SwiftUI.
+The engine lives in `Packages/TunerCore`, which has no UI, so its tests run on a Mac. The SwiftUI
+app is in `InstTuner/`.
 
 ## Test
 
@@ -83,29 +85,30 @@ cd Packages/TunerCore && swift test
 ```
 
 To score real recordings, download the guitar and pizzicato double bass files from the
-[University of Iowa samples](https://theremin.music.uiowa.edu/MIS.html) into a folder, then:
+[University of Iowa samples](https://theremin.music.uiowa.edu/MIS.html) into a folder, then run
+this:
 
 ```bash
 TUNER_RECORDINGS=/path/to/folder swift test --filter RecordingTests
 ```
 
-Debug builds accept launch arguments that replace the mic with a synthesised signal, for working
-on the screen without an instrument:
+Debug builds take launch arguments that replace the mic with a synthesised signal, so you can
+work on the screen without an instrument:
 `-demo YES -demoString 0 -demoCents m12 -demoTuning b5.standard -demoReadout strobe`.
 
 ## Issues and pull requests
 
-Both are welcome and both get read. InstTuner is a personal project worked on in spare time, so
-there's no set response time.
+I read both, and I welcome both. I work on InstTuner in my spare time, so I can't promise how soon
+I'll reply.
 
-- **Found a bug?** Open an issue with your iPhone model, iOS version, instrument and tuning, and
-  what the tuner showed compared with what you expected. A short screen recording helps a lot.
-- **Want a feature?** Open an issue first, so we can agree on it before you spend time on code.
-- **Sending a pull request?** Keep it to one change, and make sure `swift test` passes.
-  [CONTRIBUTING.md](CONTRIBUTING.md) has the details.
+- **Found a bug?** Open an issue with your iPhone model, iOS version, instrument and tuning. Say
+  what the tuner showed and what you expected. A short screen recording helps a lot.
+- **Want a feature?** Open an issue first, so we can agree on it before you write code.
+- **Sending a pull request?** Make one change per pull request, and check that `swift test`
+  passes. [CONTRIBUTING.md](CONTRIBUTING.md) has the details.
 
-InstTuner stays free, with no ads, accounts, tracking or network access. Changes that add those
-won't be merged.
+InstTuner will stay free, with no ads, accounts, tracking or network access. I won't merge changes
+that add any of those.
 
 ## Licence
 
